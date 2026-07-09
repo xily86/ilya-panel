@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ilya_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ilya_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ilya_secure_password}
+      POSTGRES_DB: ilya_panel
+      TZ: Asia/Tehran
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup:/backup
+    networks:
+      - ilya_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ilya_admin -d ilya_panel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  xray-core:
+    image: ghcr.io/xtls/xray-core:latest
+    container_name: ilya_xray
+    restart: unless-stopped
+    volumes:
+      - ./xray_config:/etc/xray/
+      - ./logs:/var/log/xray/
+    networks:
+      - ilya_network
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+    command: ["run", "-c", "/etc/xray/config.json"]
+    depends_on:
+      - postgres
+
+  panel:
+    build: .
+    container_name: ilya_panel
+    restart: unless-stopped
+    ports:
+      - "${PORT:-2053}:2053"
+    environment:
+      - XUI_DB_PATH=/etc/x-ui/x-ui.db
+      - XUI_ENABLE_FAIL2BAN=true
+      - RAILWAY_PUBLIC_DOMAIN=${RAILWAY_PUBLIC_DOMAIN:-localhost}
+      - DB_HOST=postgres
+      - DB_USER=ilya_admin
+      - DB_PASSWORD=${DB_PASSWORD:-ilya_secure_password}
+      - DB_NAME=ilya_panel
+      - TZ=Asia/Tehran
+    volumes:
+      - ./db:/etc/x-ui/
+      - ./cert:/root/cert/
+      - ./logs:/var/log/panel/
+      - ./backup:/backup
+    depends_on:
+      postgres:
+        condition: service_healthy
+      xray-core:
+        condition: service_started
+    networks:
+      - ilya_network
+
+volumes:
+  postgres_data:
+
+networks:
+  ilya_network:
+    driver: bridge

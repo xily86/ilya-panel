@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل ایلیا – فوق‌حرفه‌ای</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- ===== پس‌زمینه ذرات ===== -->
+    <div class="particles-bg" id="particles"></div>
+
+    <!-- ===== هدر ===== -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">پنل ایلیا</span>
+                <span class="logo-badge">v3.0</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator">
+                <span class="status-dot online"></span>
+                <span class="status-text" id="statusText">سیستم آنلاین</span>
+            </div>
+            <div class="header-time" id="headerTime">--:--:--</div>
+        </div>
+    </header>
+
+    <!-- ===== منوی همبرگری ===== -->
+    <nav class="hamburger-menu">
+        <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+        <div class="menu-panel" id="menuPanel">
+            <div class="menu-header">
+                <div class="menu-logo">⚡ ایلیا</div>
+                <div class="menu-close" onclick="toggleMenu()">✕</div>
+            </div>
+            <ul class="menu-list">
+                <li class="menu-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+                    <span class="menu-icon">📊</span>
+                    <span class="menu-label">داشبورد اصلی</span>
+                    <span class="menu-badge">زنده</span>
+                </li>
+                <li class="menu-item" data-tab="scanner" onclick="switchTab('scanner')">
+                    <span class="menu-icon">🔍</span>
+                    <span class="menu-label">اسکنر هوشمند</span>
+                    <span class="menu-badge">پیشرفته</span>
+                </li>
+                <li class="menu-item" data-tab="config" onclick="switchTab('config')">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-label">تولید کانفیگ</span>
+                    <span class="menu-badge">حرفه‌ای</span>
+                </li>
+                <li class="menu-item" data-tab="protocols" onclick="switchTab('protocols')">
+                    <span class="menu-icon">🛡️</span>
+                    <span class="menu-label">مدیریت پروتکل‌ها</span>
+                    <span class="menu-badge">۷+</span>
+                </li>
+                <li class="menu-item" data-tab="optimizations" onclick="switchTab('optimizations')">
+                    <span class="menu-icon">🔧</span>
+                    <span class="menu-label">بهینه‌سازی‌ها</span>
+                    <span class="menu-badge">فعال</span>
+                </li>
+                <li class="menu-item" data-tab="reports" onclick="switchTab('reports')">
+                    <span class="menu-icon">📈</span>
+                    <span class="menu-label">گزارش‌گیری</span>
+                    <span class="menu-badge">تحلیلی</span>
+                </li>
+                <li class="menu-item" data-tab="users" onclick="switchTab('users')">
+                    <span class="menu-icon">👥</span>
+                    <span class="menu-label">مدیریت کاربران</span>
+                    <span class="menu-badge">+</span>
+                </li>
+                <li class="menu-item" data-tab="settings" onclick="switchTab('settings')">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-label">تنظیمات پیشرفته</span>
+                    <span class="menu-badge">اختصاصی</span>
+                </li>
+            </ul>
+            <div class="menu-footer">
+                <span>ساخته شده با ❤️ توسط</span>
+                <span class="creator-name">ایلیا</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== محتوای اصلی ===== -->
+    <main class="main-content">
+
+        <!-- ===== تب ۱: داشبورد ===== -->
+        <section class="tab-content active" id="tab-dashboard">
+            <div class="tab-header">
+                <h2>📊 داشبورد اصلی</h2>
+                <p>نمای کلی از وضعیت سیستم، کاربران و ترافیک</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" style="--accent: #6C63FF;">
+                    <div class="stat-icon">🖥️</div>
+                    <div class="stat-value" id="cpuVal">0%</div>
+                    <div class="stat-label">مصرف پردازنده</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width:0%"></div></div>
+                </div>
+                <div class="stat-card" style="--accent: #00D4FF;">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-value" id="ramVal">0%</div>
+                    <div class="stat-label">مصرف حافظه</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width:0%"></div></div>
+                </div>
+                <div class="stat-card" style="--accent: #00E676;">
+                    <div class="stat-icon">📡</div>
+                    <div class="stat-value" id="usersVal">۰</div>
+                    <div class="stat-label">کاربران آنلاین</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width:0%"></div></div>
+                </div>
+                <div class="stat-card" style="--accent: #FFC107;">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-value" id="trafficVal">۰ GB</div>
+                    <div class="stat-label">ترافیک امروز</div>
+                    <div class="stat-bar"><div class="stat-bar-fill" style="width:0%"></div></div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dash-card glass">
+                    <h3>📈 پینگ لحظه‌ای</h3>
+                    <div class="chart-container">
+                        <canvas id="pingChart" height="150"></canvas>
+                    </div>
+                </div>
+                <div class="dash-card glass">
+                    <h3>🔝 بهترین آی‌پی‌ها</h3>
+                    <div class="best-ips-list" id="bestIpsList">
+                        <div class="ip-item"><span class="ip-rank">🥇</span><span class="ip-addr">104.16.24.1</span><span class="ip-latency">32ms</span></div>
+                        <div class="ip-item"><span class="ip-rank">🥈</span><span class="ip-addr">104.16.25.2</span><span class="ip-latency">41ms</span></div>
+                        <div class="ip-item"><span class="ip-rank">🥉</span><span class="ip-addr">104.16.26.3</span><span class="ip-latency">38ms</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۲: اسکنر ===== -->
+        <section class="tab-content" id="tab-scanner">
+            <div class="tab-header">
+                <h2>🔍 اسکنر هوشمند CDN</h2>
+                <p>اسکن چندلایه با تست واقعی از طریق تانل Xray</p>
+            </div>
+
+            <div class="scanner-toolbar">
+                <button class="btn btn-primary" onclick="startScan('quick')">🚀 اسکن سریع</button>
+                <button class="btn btn-warning" onclick="startScan('targeted')">🎯 اسکن هدفمند</button>
+                <button class="btn btn-danger" onclick="startScan('deep')">🔬 اسکن عمیق</button>
+                <button class="btn btn-info" onclick="startScan('combined')">⚡ اسکن ترکیبی</button>
+            </div>
+
+            <div class="scanner-filters">
+                <div class="filter-group">
+                    <label>🌍 انتخاب CDN</label>
+                    <select id="cdnSelect">
+                        <option value="all">همه CDN ها</option>
+                        <option value="cloudflare">Cloudflare</option>
+                        <option value="fastly">Fastly</option>
+                        <option value="gcore">Gcore</option>
+                        <option value="amazon">Amazon</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>📡 انتخاب ISP</label>
+                    <select id="ispSelect">
+                        <option value="all">همه اپراتورها</option>
+                        <option value="hamraheaval">همراه اول</option>
+                        <option value="irancel">ایرانسل</option>
+                        <option value="mokhaberat">مخابرات</option>
+                        <option value="rightel">رایتل</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>📊 تعداد آی‌پی</label>
+                    <input type="number" id="ipCount" value="20" min="5" max="100">
+                </div>
+                <button class="btn btn-success" onclick="startAdvancedScan()">▶️ شروع اسکن پیشرفته</button>
+            </div>
+
+            <div class="scan-results" id="scanResults">
+                <div class="scan-placeholder">
+                    <span class="scan-icon">🔎</span>
+                    <p>نتایج اسکن در اینجا نمایش داده می‌شود</p>
+                    <small>برای شروع، یکی از دکمه‌های اسکن را انتخاب کنید</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۳: تولید کانفیگ ===== -->
+        <section class="tab-content" id="tab-config">
+            <div class="tab-header">
+                <h2>⚙️ تولید کانفیگ پیشرفته</h2>
+                <p>ساخت کانفیگ‌های ترکیبی با بالاترین سرعت</p>
+            </div>
+
+            <div class="config-toolbar">
+                <button class="btn btn-success" onclick="generateConfig('auto')">✨ تولید خودکار</button>
+                <button class="btn btn-warning" onclick="generateConfig('hybrid')">🔗 تولید ترکیبی</button>
+                <button class="btn btn-info" onclick="generateConfig('experimental')">🧪 پروتکل‌های آزمایشی</button>
+                <button class="btn btn-primary" onclick="exportConfig()">📤 Export</button>
+                <button class="btn btn-danger" onclick="saveConfig()">💾 ذخیره در دیتابیس</button>
+            </div>
+
+            <div class="config-options">
+                <div class="option-group">
+                    <label>📦 حجم ترافیک (GB)</label>
+                    <input type="number" id="configTraffic" value="50" min="1">
+                </div>
+                <div class="option-group">
+                    <label>📅 تاریخ انقضا (روز)</label>
+                    <input type="number" id="configExpiry" value="30" min="1">
+                </div>
+                <div class="option-group">
+                    <label>🏷️ نام کانفیگ</label>
+                    <input type="text" id="configName" placeholder="نام دلخواه">
+                </div>
+            </div>
+
+            <div class="config-output" id="configOutput">
+                <div class="config-placeholder">
+                    <span class="config-icon">📝</span>
+                    <p>کانفیگ تولید شده در اینجا نمایش داده می‌شود</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۴: پروتکل‌ها ===== -->
+        <section class="tab-content" id="tab-protocols">
+            <div class="tab-header">
+                <h2>🛡️ مدیریت پروتکل‌ها</h2>
+                <p>فعال‌سازی و غیرفعال‌سازی پروتکل‌های پیشرفته</p>
+            </div>
+
+            <div class="protocol-grid">
+                <div class="protocol-card active" onclick="toggleProtocol('hysteria2')">
+                    <span class="protocol-icon">🚀</span>
+                    <span class="protocol-name">Hysteria2</span>
+                    <span class="protocol-desc">با 0-RTT و Brutal</span>
+                    <span class="protocol-status" id="status-hysteria2">✅ فعال</span>
+                </div>
+                <div class="protocol-card active" onclick="toggleProtocol('tuic')">
+                    <span class="protocol-icon">⚡</span>
+                    <span class="protocol-name">TUIC</span>
+                    <span class="protocol-desc">با 0-RTT</span>
+                    <span class="protocol-status" id="status-tuic">✅ فعال</span>
+                </div>
+                <div class="protocol-card active" onclick="toggleProtocol('vless_reality')">
+                    <span class="protocol-icon">🔐</span>
+                    <span class="protocol-name">VLESS+Reality</span>
+                    <span class="protocol-desc">پسا-کوانتومی</span>
+                    <span class="protocol-status" id="status-vless_reality">✅ فعال</span>
+                </div>
+                <div class="protocol-card active" onclick="toggleProtocol('grpc')">
+                    <span class="protocol-icon">🌐</span>
+                    <span class="protocol-name">gRPC</span>
+                    <span class="protocol-desc">مالتی‌پلکس</span>
+                    <span class="protocol-status" id="status-grpc">✅ فعال</span>
+                </div>
+                <div class="protocol-card active" onclick="toggleProtocol('xhttp')">
+                    <span class="protocol-icon">🔄</span>
+                    <span class="protocol-name">XHTTP</span>
+                    <span class="protocol-desc">stream-up/down</span>
+                    <span class="protocol-status" id="status-xhttp">✅ فعال</span>
+                </div>
+                <div class="protocol-card" onclick="toggleProtocol('wireguard')">
+                    <span class="protocol-icon">🔒</span>
+                    <span class="protocol-name">WireGuard</span>
+                    <span class="protocol-desc">VPN مدرن</span>
+                    <span class="protocol-status" id="status-wireguard">⏸️ غیرفعال</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۵: بهینه‌سازی‌ها ===== -->
+        <section class="tab-content" id="tab-optimizations">
+            <div class="tab-header">
+                <h2>🔧 بهینه‌سازی‌های پیشرفته</h2>
+                <p>تنظیمات هسته، شبکه و امنیت</p>
+            </div>
+
+            <div class="optimization-grid">
+                <div class="opt-card active" onclick="toggleOpt('xmux')">
+                    <span class="opt-icon">🧠</span>
+                    <span class="opt-name">Xmux</span>
+                    <span class="opt-desc">مالتی‌پلکس اتصالات</span>
+                    <span class="opt-status" id="opt-xmux">✅ فعال</span>
+                </div>
+                <div class="opt-card active" onclick="toggleOpt('bbr')">
+                    <span class="opt-icon">⚡</span>
+                    <span class="opt-name">BBR</span>
+                    <span class="opt-desc">الگوریتم گوگل</span>
+                    <span class="opt-status" id="opt-bbr">✅ فعال</span>
+                </div>
+                <div class="opt-card active" onclick="toggleOpt('fragment')">
+                    <span class="opt-icon">🧪</span>
+                    <span class="opt-name">Fragment Finder</span>
+                    <span class="opt-desc">خودکار</span>
+                    <span class="opt-status" id="opt-fragment">✅ فعال</span>
+                </div>
+                <div class="opt-card active" onclick="toggleOpt('browser_dialer')">
+                    <span class="opt-icon">🌐</span>
+                    <span class="opt-name">Browser Dialer</span>
+                    <span class="opt-desc">شبیه‌سازی مرورگر</span>
+                    <span class="opt-status" id="opt-browser_dialer">✅ فعال</span>
+                </div>
+                <div class="opt-card" onclick="toggleOpt('ghost_mode')">
+                    <span class="opt-icon">👻</span>
+                    <span class="opt-name">Ghost Mode</span>
+                    <span class="opt-desc">حالت ناپدیدشونده</span>
+                    <span class="opt-status" id="opt-ghost_mode">⏸️ غیرفعال</span>
+                </div>
+                <div class="opt-card active" onclick="toggleOpt('ipv6')">
+                    <span class="opt-icon">📶</span>
+                    <span class="opt-name">IPv6</span>
+                    <span class="opt-desc">پشتیبانی پیش‌فرض</span>
+                    <span class="opt-status" id="opt-ipv6">✅ فعال</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۶: گزارش‌گیری ===== -->
+        <section class="tab-content" id="tab-reports">
+            <div class="tab-header">
+                <h2>📈 گزارش‌گیری پیشرفته</h2>
+                <p>تحلیل ترافیک، پینگ و عملکرد</p>
+            </div>
+
+            <div class="report-toolbar">
+                <button class="btn btn-primary" onclick="generateReport('json')">📄 خروجی JSON</button>
+                <button class="btn btn-success" onclick="generateReport('csv')">📊 خروجی CSV</button>
+                <button class="btn btn-warning" onclick="generateReport('html')">🌐 گزارش HTML</button>
+                <button class="btn btn-info" onclick="generateReport('pdf')">📑 گزارش PDF</button>
+                <button class="btn btn-danger" onclick="generateReport('chart')">📈 نمودار تحلیلی</button>
+            </div>
+
+            <div class="report-filters">
+                <div class="filter-group">
+                    <label>📅 از تاریخ</label>
+                    <input type="date" id="reportFrom">
+                </div>
+                <div class="filter-group">
+                    <label>📅 تا تاریخ</label>
+                    <input type="date" id="reportTo">
+                </div>
+                <div class="filter-group">
+                    <label>👤 کاربر</label>
+                    <select id="reportUser">
+                        <option value="all">همه کاربران</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="report-output" id="reportOutput">
+                <div class="report-placeholder">
+                    <span class="report-icon">📊</span>
+                    <p>گزارش‌ها در اینجا نمایش داده می‌شوند</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== تب ۷: کاربران ===== -->
+        <section class="tab-content" id="tab-users">
+            <div class="tab-header">
+                <h2>👥 مدیریت کاربران</h2>
+                <p>افزودن، حذف و مدیریت کاربران</p>
+            </div>
+
+            <div class="user-toolbar">
+                <button class="btn btn-success" onclick="addUser()">➕ افزودن کاربر</button>
+                <button class="btn btn-danger" onclick="removeUser()">➖ حذف کاربر</button>
+                <button class="btn btn-info" onclick="refreshUsers()">🔄 به‌روزرسانی</button>
+                <button class="btn btn-warning" onclick="exportUsers()">📤 خروجی کاربران</button>
+            </div>
+
+            <div class="user-search">
+                <input type="text" id="userSearch" placeholder="🔍 جستجوی کاربر..." onkeyup="searchUsers()">
+            </div>
+
+            <div class="user-table-wrapper">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>نام کاربری</th>
+                            <th>ترافیک مجاز</th>
+                            <th>مصرف شده</th>
+                            <th>انقضا</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <tr>
+                            <td><span class="user-avatar">👤</span> admin</td>
+                            <td>نامحدود</td>
+                            <td>۱۲.۴ GB</td>
+                            <td>نامحدود</td>
+                            <td><span class="badge success">فعال</span></td>
+                            <td><button class="btn-sm btn-edit">✏️</button> <button class="btn-sm btn-del">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="user-avatar">👤</span> user1</td>
+                            <td>۵۰ GB</td>
+                            <td>۸.۲ GB</td>
+                            <td>۱۴ روز</td>
+                            <td><span class="badge success">فعال</span></td>
+                            <td><button class="btn-sm btn-edit">✏️</button> <button class="btn-sm btn-del">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="user-avatar">👤</span> user2</td>
+                            <td>۱۰۰ GB</td>
+                            <td>۳.۷ GB</td>
+                            <td>۲۸ روز</td>
+                            <td><span class="badge warning">نزدیک به اتمام</span></td>
+                            <td><button class="btn-sm btn-edit">✏️</button> <button class="btn-sm btn-del">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== تب ۸: تنظیمات ===== -->
+        <section class="tab-content" id="tab-settings">
+            <div class="tab-header">
+                <h2>⚙️ تنظیمات پیشرفته</h2>
+                <p>پیکربندی کامل پنل ایلیا</p>
+            </div>
+
+            <div class="settings-grid">
+                <div class="setting-card glass">
+                    <h4>🌐 دامنه و SNI</h4>
+                    <div class="setting-row">
+                        <label>دامنه اختصاصی</label>
+                        <input type="text" id="domainInput" placeholder="your-domain.com">
+                    </div>
+                    <div class="setting-row">
+                        <label>SNI</label>
+                        <input type="text" id="sniInput" placeholder="auto">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveDomain()">💾 ذخیره دامنه</button>
+                </div>
+
+                <div class="setting-card glass">
+                    <h4>🔑 امنیت و حریم خصوصی</h4>
+                    <div class="setting-row switch-row">
+                        <label>حالت ناپدیدشونده (Ghost Mode)</label>
+                        <div class="switch" onclick="toggleSwitch(this)">
+                            <div class="switch-track"><div class="switch-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="setting-row switch-row">
+                        <label>احراز هویت دو مرحله‌ای (2FA)</label>
+                        <div class="switch" onclick="toggleSwitch(this)">
+                            <div class="switch-track"><div class="switch-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="setting-row switch-row">
+                        <label>Fail2ban</label>
+                        <div class="switch active" onclick="toggleSwitch(this)">
+                            <div class="switch-track"><div class="switch-thumb"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-card glass">
+                    <h4>🤖 ربات تلگرام</h4>
+                    <div class="setting-row">
+                        <label>توکن ربات</label>
+                        <input type="text" id="telegramToken" placeholder="توکن خود را وارد کنید">
+                    </div>
+                    <div class="setting-row">
+                        <label>Chat ID</label>
+                        <input type="text" id="telegramChatId" placeholder="Chat ID">
+                    </div>
+                    <button class="btn btn-success" onclick="saveTelegram()">💾 ذخیره تلگرام</button>
+                </div>
+
+                <div class="setting-card glass">
+                    <h4>💾 بکاپ و بازیابی</h4>
+                    <div class="setting-row">
+                        <label>بکاپ خودکار</label>
+                        <div class="switch active" onclick="toggleSwitch(this)">
+                            <div class="switch-track"><div class="switch-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <label>مدت نگهداری (روز)</label>
+                        <input type="number" id="backupRetention" value="7">
+                    </div>
+                    <div class="setting-buttons">
+                        <button class="btn btn-warning" onclick="manualBackup()">📥 بکاپ دستی</button>
+                        <button class="btn btn-danger" onclick="restoreBackup()">📤 بازیابی</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== فوتر ===== -->
+    <footer class="footer">
+        <span>ساخته شده با ❤️ توسط <span class="creator-name">ایلیا</span></span>
+        <span class="footer-version">نسخه ۳.۰</span>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    <script>
+        // ===== زمان زنده =====
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('headerTime').textContent = now.toLocaleTimeString('fa-IR');
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // ===== وضعیت سیستم =====
+        setInterval(() => {
+            const cpu = Math.floor(Math.random() * 30) + 10;
+            const ram = Math.floor(Math.random() * 40) + 20;
+            const users = Math.floor(Math.random() * 15) + 5;
+            const traffic = (Math.random() * 20 + 5).toFixed(1);
+
+            document.getElementById('cpuVal').textContent = cpu + '%';
+            document.getElementById('ramVal').textContent = ram + '%';
+            document.getElementById('usersVal').textContent = users;
+            document.getElementById('trafficVal').textContent = traffic + ' GB';
+
+            document.querySelectorAll('.stat-bar-fill')[0].style.width = cpu + '%';
+            document.querySelectorAll('.stat-bar-fill')[1].style.width = ram + '%';
+            document.querySelectorAll('.stat-bar-fill')[2].style.width = Math.min(users * 3, 100) + '%';
+            document.querySelectorAll('.stat-bar-fill')[3].style.width = Math.min(parseFloat(traffic) * 2, 100) + '%';
+        }, 3000);
+    </script>
+
+</body>
+</html>
