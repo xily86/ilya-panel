@@ -16,6 +16,7 @@ export XUI_ENABLE_FAIL2BAN="true"
 export XUI_DOMAIN="$DOMAIN"
 export XUI_PORT="2053"
 
+# ایجاد پوشه‌های مورد نیاز
 mkdir -p /etc/x-ui /root/cert /var/log/panel /var/log/xray /backup
 
 # اجرای اسکریپت‌های هوشمند در پس‌زمینه
@@ -26,7 +27,7 @@ python3 /scripts/fragment_finder.py &
 python3 /scripts/auto_pilot.py &
 python3 /scripts/backup_manager.py &
 
-# ربات تلگرام (اختیاری)
+# ربات تلگرام (در صورت تنظیم متغیرها)
 if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
   python3 /scripts/telegram_bot.py &
 fi
