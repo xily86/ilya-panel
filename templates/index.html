@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>پنل ایلیا</title>
+<link rel="stylesheet" href="/static/css/style.css"></head>
+<body>
+<div class="container">
+  <header class="header glassmorphism">
+    <div><h1>🚀 پنل ایلیا</h1><span class="subtitle">پنل فوق‌حرفه‌ای مدیریت Xray</span></div>
+    <div><span class="status-dot green"></span><span id="status-text">آنلاین</span></div>
+  </header>
+  <nav class="hamburger-menu"><div class="menu-toggle" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <ul class="menu-items" id="menuItems">
+      <li><a href="#dashboard" onclick="showSection('dashboard')">📊 داشبورد</a></li>
+      <li><a href="#scanner" onclick="showSection('scanner')">🔍 اسکنر</a></li>
+      <li><a href="#config" onclick="showSection('config')">⚙️ تولید کانفیگ</a></li>
+      <li><a href="#protocols" onclick="showSection('protocols')">🛡️ پروتکل‌ها</a></li>
+      <li><a href="#optimizations" onclick="showSection('optimizations')">🔧 بهینه‌سازی</a></li>
+      <li><a href="#reports" onclick="showSection('reports')">📊 گزارش</a></li>
+      <li><a href="#users" onclick="showSection('users')">👥 کاربران</a></li>
+      <li><a href="#settings" onclick="showSection('settings')">⚙️ تنظیمات</a></li>
+    </ul>
+  </nav>
+  <main class="main-content">
+    <section id="dashboard" class="section active"><h2>📊 داشبورد</h2>
+      <div class="stats-grid">
+        <div class="stat-card glassmorphism"><span class="stat-icon">🖥️</span><span class="stat-value" id="cpu-usage">0%</span><span class="stat-label">CPU</span></div>
+        <div class="stat-card glassmorphism"><span class="stat-icon">🧠</span><span class="stat-value" id="ram-usage">0%</span><span class="stat-label">RAM</span></div>
+        <div class="stat-card glassmorphism"><span class="stat-icon">📡</span><span class="stat-value" id="users-online">0</span><span class="stat-label">کاربران آنلاین</span></div>
+        <div class="stat-card glassmorphism"><span class="stat-icon">🌐</span><span class="stat-value" id="traffic-today">0 GB</span><span class="stat-label">ترافیک امروز</span></div>
+      </div>
+    </section>
+    <section id="scanner" class="section"><h2>🔍 اسکنر هوشمند</h2>
+      <div class="scanner-controls">
+        <button class="btn btn-primary" onclick="startScan('quick')">🚀 اسکن سریع</button>
+        <button class="btn btn-warning" onclick="startScan('targeted')">🎯 هدفمند</button>
+        <button class="btn btn-danger" onclick="startScan('deep')">🔬 عمیق</button>
+        <button class="btn btn-info" onclick="startScan('combined')">⚡ ترکیبی</button>
+      </div>
+      <div><label>🌍 CDN: </label><select id="cdn-select"><option value="cloudflare">Cloudflare</option><option value="fastly">Fastly</option><option value="gcore">Gcore</option><option value="all">همه</option></select></div>
+      <div><label>📡 ISP: </label><select id="isp-select"><option value="hamraheaval">همراه اول</option><option value="irancel">ایرانسل</option><option value="mokhaberat">مخابرات</option><option value="all">همه</option></select></div>
+      <div class="scan-results"><pre id="scan-output">نتایج اسکن...</pre></div>
+    </section>
+    <section id="config" class="section"><h2>⚙️ تولید کانفیگ</h2>
+      <div><button class="btn btn-success" onclick="generateConfig('auto')">✨ خودکار</button>
+      <button class="btn btn-warning" onclick="generateConfig('hybrid')">🔗 ترکیبی</button>
+      <button class="btn btn-info" onclick="generateConfig('experimental')">🧪 آزمایشی</button>
+      <button class="btn btn-primary" onclick="exportConfig()">📤 Export</button></div>
+      <div class="config-output"><pre id="config-output">کانفیگ تولید شده...</pre></div>
+    </section>
+    <section id="protocols" class="section"><h2>🛡️ مدیریت پروتکل‌ها</h2>
+      <div class="protocol-grid">
+        <div class="protocol-card" onclick="toggleProtocol('hysteria2')"><span class="protocol-icon">🚀</span><span class="protocol-name">Hysteria2</span><span class="protocol-status active" id="status-hysteria2">✅ فعال</span></div>
+        <div class="protocol-card" onclick="toggleProtocol('tuic')"><span class="protocol-icon">⚡</span><span class="protocol-name">TUIC</span><span class="protocol-status active" id="status-tuic">✅ فعال</span></div>
+        <div class="protocol-card" onclick="toggleProtocol('vless_reality')"><span class="protocol-icon">🔐</span><span class="protocol-name">VLESS+Reality</span><span class="protocol-status active" id="status-vless_reality">✅ فعال</span></div>
+        <div class="protocol-card" onclick="toggleProtocol('grpc')"><span class="protocol-icon">🌐</span><span class="protocol-name">gRPC</span><span class="protocol-status active" id="status-grpc">✅ فعال</span></div>
+        <div class="protocol-card" onclick="toggleProtocol('xhttp')"><span class="protocol-icon">🔄</span><span class="protocol-name">XHTTP</span><span class="protocol-status active" id="status-xhttp">✅ فعال</span></div>
+      </div>
+    </section>
+    <section id="optimizations" class="section"><h2>🔧 بهینه‌سازی‌ها</h2>
+      <div class="optimization-grid">
+        <div class="opt-card" onclick="toggleOptimization('xmux')"><span class="opt-icon">🧠</span><span class="opt-name">Xmux</span><span class="opt-status" id="opt-xmux">✅ فعال</span></div>
+        <div class="opt-card" onclick="toggleOptimization('bbr')"><span class="opt-icon">⚡</span><span class="opt-name">BBR</span><span class="opt-status" id="opt-bbr">✅ فعال</span></div>
+        <div class="opt-card" onclick="toggleOptimization('fragment')"><span class="opt-icon">🧪</span><span class="opt-name">Fragment</span><span class="opt-status" id="opt-fragment">✅ فعال</span></div>
+        <div class="opt-card" onclick="toggleOptimization('browser_dialer')"><span class="opt-icon">🌐</span><span class="opt-name">Browser Dialer</span><span class="opt-status" id="opt-browser_dialer">✅ فعال</span></div>
+      </div>
+    </section>
+    <section id="reports" class="section"><h2>📊 گزارش‌گیری</h2>
+      <div><button class="btn btn-primary" onclick="generateReport('json')">📄 JSON</button><button class="btn btn-success" onclick="generateReport('csv')">📊 CSV</button><button class="btn btn-warning" onclick="generateReport('html')">🌐 HTML</button></div>
+      <div class="report-output"><pre id="report-output">گزارش‌ها...</pre></div>
+    </section>
+    <section id="users" class="section"><h2>👥 کاربران</h2>
+      <div><button class="btn btn-success" onclick="addUser()">➕ افزودن</button><button class="btn btn-danger" onclick="removeUser()">➖ حذف</button></div>
+      <div class="user-list"><table><thead><tr><th>نام کاربری</th><th>ترافیک</th><th>انقضا</th><th>وضعیت</th></tr></thead><tbody id="user-table-body"><tr><td>admin</td><td>نامحدود</td><td>نامحدود</td><td>✅ فعال</td></tr></tbody></table></div>
+    </section>
+    <section id="settings" class="section"><h2>⚙️ تنظیمات</h2>
+      <div class="settings-grid">
+        <div class="setting-item"><label>🌐 دامنه</label><input type="text" id="domain-input" placeholder="دامنه"><button class="btn btn-primary" onclick="updateDomain()">ذخیره</button></div>
+        <div class="setting-item"><label>🔑 Ghost Mode</label><input type="checkbox" id="ghost-mode-toggle"><span>فعال</span></div>
+        <div class="setting-item"><label>🤖 تلگرام</label><input type="text" id="telegram-token" placeholder="توکن"><button class="btn btn-primary" onclick="saveTelegram()">ذخیره</button></div>
+        <div class="setting-item"><label>💾 بکاپ</label><button class="btn btn-warning" onclick="manualBackup()">📥 بکاپ</button><button class="btn btn-danger" onclick="restoreBackup()">📤 بازیابی</button></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><span>ساخته شده با ❤️ توسط <span class="creator-name">ایلیا</span></span><span class="version">نسخه 3.0</span></footer>
+</div>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

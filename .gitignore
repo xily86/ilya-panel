@@ -1,0 +1,11 @@
+
+*.db *.log *.pid *.sock *.lock
+__pycache__/ *.pyc *.pyo .Python *.so *.egg *.egg-info dist/ build/ *.whl
+.env .env.local .env.*.local
+*.pem *.crt *.key *.csr *.der
+*.sqlite *.sqlite3 *.dump
+.vscode/ .idea/ *.swp *.swo *~
+.DS_Store Thumbs.db
+*.log logs/ *.out
+*.bak *.old backup/*.sql backup/*.tar.gz
+tmp/ temp/ *.tmp

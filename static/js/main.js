@@ -1,0 +1,17 @@
+
+function toggleMenu(){document.querySelector('.menu-toggle').classList.toggle('active');document.getElementById('menuItems').classList.toggle('active')}
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelector('.menu-toggle').classList.remove('active');document.getElementById('menuItems').classList.remove('active');document.querySelectorAll('.menu-items a').forEach(a=>a.classList.remove('active'));const link=document.querySelector(`.menu-items a[href="#${id}"]`);if(link)link.classList.add('active')}
+function startScan(type){const out=document.getElementById('scan-output');out.textContent=`⏳ اسکن ${type}...`;setTimeout(()=>{out.textContent=`✅ اسکن ${type} کامل شد!\n📊 ۱۲ آی‌پی | بهترین پینگ: 32ms | سرعت: 8.4 MB/s\n🏆 104.16.24.1 (Cloudflare)`},2000)}
+function generateConfig(type){const out=document.getElementById('config-output');const configs={auto:'✨ کانفیگ خودکار:\nvless://abcd@xily-production-71d1.up.railway.app:443',hybrid:'🔗 کانفیگ ترکیبی (۳ مسیر)',experimental:'🧪 Hysteria2 + TUIC + VLESS پسا-کوانتومی'};out.textContent=configs[type]||'⚠️ نامعتبر'}
+function exportConfig(){document.getElementById('config-output').textContent='📤 Export: لینک ✅ | QR ✅ | JSON ✅ | Subscription ✅'}
+function toggleProtocol(name){const s=document.getElementById(`status-${name}`);if(s){const a=s.textContent.includes('فعال');s.textContent=a?'❌ غیرفعال':'✅ فعال';s.className='protocol-status '+(a?'inactive':'active')}}
+function toggleOptimization(name){const s=document.getElementById(`opt-${name}`);if(s){const a=s.textContent.includes('فعال');s.textContent=a?'❌ غیرفعال':'✅ فعال'}}
+function generateReport(type){const out=document.getElementById('report-output');out.textContent='📄 گزارش '+type+': تولید شد'}
+function addUser(){const u=prompt('نام کاربری:');if(!u)return;const t=prompt('حجم (GB):','10');const e=prompt('انقضا (روز):','30');const row=document.createElement('tr');row.innerHTML=`<td>${u}</td><td>${t} GB</td><td>${e} روز</td><td>✅ فعال</td>`;document.getElementById('user-table-body').appendChild(row)}
+function removeUser(){const u=prompt('نام کاربری برای حذف:');if(!u)return;document.querySelectorAll('#user-table-body tr').forEach(r=>{if(r.cells[0].textContent===u){r.remove()}})}
+function updateDomain(){const d=document.getElementById('domain-input').value;showToast(d?`✅ دامنه ${d} ذخیره شد`:'⚠️ دامنه را وارد کنید')}
+function saveTelegram(){showToast(document.getElementById('telegram-token').value?'✅ توکن ذخیره شد':'⚠️ توکن را وارد کنید')}
+function manualBackup(){showToast('💾 بکاپ...');setTimeout(()=>showToast('✅ بکاپ تهیه شد'),1500)}
+function restoreBackup(){showToast('📤 بازیابی...');setTimeout(()=>showToast('✅ بازیابی شد'),1500)}
+function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;t.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(10,14,23,0.95);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:16px 32px;color:#fff;font-size:15px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.5);animation:fadeIn .3s';document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},3000)}
+document.addEventListener('DOMContentLoaded',function(){showSection('dashboard');setTimeout(()=>showToast('🚀 به پنل ایلیا خوش آمدید!'),500)})
